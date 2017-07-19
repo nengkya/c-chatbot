@@ -17,7 +17,7 @@ int main()
  //generate random number by current time
  srand((unsigned) time(NULL));
 
- //var string input + response
+ //var string input dari user + response dari chat bot
  std::string sInput    = "";
  std::string sResponse = "";
 
