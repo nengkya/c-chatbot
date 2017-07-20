@@ -2,12 +2,14 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <cstdlib>   //untuk dapat memanggil void function srand()
 
 const int MAX_RESP = 3;   //array of max response of chat bot
 
 typedef std::vector <std::string> vstring;
 
 vstring find_match(std::string input);
+
 void copy(char *array[], vstring &v);
 
 typedef struct{
@@ -73,7 +75,6 @@ record KnowledgeBase[] = {  //record variable type
 
 size_t nKnowledgeBaseSize = sizeof(KnowledgeBase)/sizeof(KnowledgeBase[0]);
 
-
 int main()
 {
  srand((unsigned) time(NULL));
@@ -82,9 +83,10 @@ int main()
  std::string sInput    = "";
  std::string sResponse = "";
 
- while (1) {
-        std::cout << ">";
-        std::getline(std::cin, sInput);
+ while (1)
+       {
+        std::cout << "What do you want to say to me : ";
+        std::getline(std::cin, sInput);   //masukan cin ke dalam var string sInput
         vstring responses = find_match(sInput);
         if(sInput == "BYE") {
             std::cout << "IT WAS NICE TALKING TO YOU USER, SEE YOU NEXTTIME!" << std::endl;  
@@ -97,26 +99,40 @@ int main()
             int nSelection = rand()  % MAX_RESP;
             sResponse =   responses[nSelection]; std::cout << sResponse << std::endl; 
         } 
-    } 
+       } 
 
-    return 0;
-}
-    
-// make a  search for the  user's input 
-// inside the database of the program 
-vstring find_match(std::string  input) { 
-    vstring result;
-    for(int i = 0; i < nKnowledgeBaseSize;  ++i) {  
-        if(std::string(KnowledgeBase[i].input) == input) { 
-            copy(KnowledgeBase[i].responses, result); 
-            return result;
-        } 
-    } 
-    return result; 
+ return 0;
 }
 
-void copy(char  *array[], vstring &v) { 
-    for(int i = 0;  i < MAX_RESP; ++i) {
-        v.push_back(array[i]);
-    }
-}
+  
+// make a  search for the  user's input
+// inside the database of the program
+// kalo cin = db
+// typedef std::vector <std::string> vstring;
+
+vstring find_match(std::string  input)
+ { 
+  vstring result;
+  //size_t nKnowledgeBaseSize = sizeof(KnowledgeBase)/sizeof(KnowledgeBase[0]);
+
+  for (int i = 0; i < nKnowledgeBaseSize; ++i)
+      {
+       //   
+       if (std::string(KnowledgeBase[i].input) == input)
+          { 
+           copy(KnowledgeBase[i].responses, result); 
+           return result;
+          } 
+      } 
+  return result; 
+ }
+
+
+void copy(char  *array[], vstring &v)
+     { 
+      for (int i = 0;  i < MAX_RESP; ++i)
+          {v.push_back(array[i]);}
+     }
+
+// cara compile --> $ g++ c++chatbot2.cpp -o c++chatbot2 -Wno-write-strings
+
